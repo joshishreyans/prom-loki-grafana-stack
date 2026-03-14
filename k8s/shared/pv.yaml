@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: log-gen-pv
+spec:
+  storageClassName: local-storage 
+  capacity:
+    storage: 250Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/run/desktop/mnt/host/${your-log-path-on-host}"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: log-gen-pvc
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 250Mi
+  volumeName: log-gen-pv
